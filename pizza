@@ -1,0 +1,424 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Konfigurator Pizzy"
+        android:textAlignment="center"
+        android:layout_marginBottom="14dp"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tekstCenaBazowa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cena podstawowa: 20.00 PLN"
+        android:textAlignment="center"
+        android:layout_marginBottom="6dp"></TextView>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wybierz dodatki (każdy +3.00 PLN):"
+        android:textAlignment="center"
+        android:layout_marginBottom="20dp"></TextView>
+
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/checkboxSer"
+        android:text="Dodatkowy ser"></CheckBox>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/checkboxSzynka"
+        android:text="Szynka"></CheckBox>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/checkboxPieczarki"
+        android:text="Pieczarki"></CheckBox>
+    <RadioGroup
+        android:id="@+id/radioGroupRozmiar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/bezSosu"
+            android:tag="bezSosu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bez Sosu"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/sosCzosnkowy"
+            android:tag="sosCzosnkowy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sos Czosnkowy"/>
+
+        <RadioButton
+            android:id="@+id/sosPomidorowy"
+            android:tag="sosPomidorowy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sos Pomidorowy"/>
+    </RadioGroup>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CENA:"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:id="@+id/tekstCenaKoncowa"></TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:id="@+id/podsumowanie"></TextView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/zamow"
+        android:text="zamow"
+        android:enabled="false"></Button>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lata"
+        android:text="czy masz 18 lat"></CheckBox>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/student"
+        android:text="Zniżka studencka (-10%)"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wybierz rozmiar:"
+        android:layout_marginTop="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroupRozmiar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioMala"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="mala"
+            android:text="Mała (20 PLN)"/>
+
+        <RadioButton
+            android:id="@+id/radioSrednia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="srednia"
+            android:text="Średnia (30 PLN)"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/radioDuza"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="duza"
+            android:text="Duża (40 PLN)"/>
+    </RadioGroup>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/wyczysc"
+        android:text="Wyczysc Formularz"></Button>
+    <CheckBox
+        android:id="@+id/checkBoxWlasnejRoboty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ciasto własnej roboty"
+        android:onClick="ukryjSpinner"/>
+    <Spinner
+        android:id="@+id/ciastoSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/rodzajCiasta"/>
+
+
+
+
+</LinearLayout>
+
+
+
+
+
+package com.example.myapplication;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+
+    private static final double CENA_MALA = 20.0;
+    private static final double CENA_SREDNIA = 30.0;
+    private static final double CENA_DUZA = 40.0;
+
+    private static final double CENA_SER = 3.0;
+    private static final double CENA_SZYNKA = 3.0;
+    private static final double CENA_PIECZARKI = 3.0;
+    private static final double CENA_SOS_CZOSNKOWY = 2.0;
+    private static final double CENA_SOS_POMIDOROWY = 2.0;
+    private static final double CENA_BEZ_SOSU = 0.0;
+    private static final double ZNIZKA_STUDENCKA = (10.0/100.0);
+
+    CheckBox ser, szynka, pieczarki, lata, student,checkboxWlasneCiasto;
+
+    TextView tekstCenaKoncowa, podsumowanie,tekstCenaBazowa;
+    RadioGroup radioGroupRozmiar, radioGroupRozmiar2;
+    RadioButton sosCzosnkowy, sosPomidorowy, bezSosu , radioMala, radioSrednia, radioDuza;
+
+    Spinner spinnerCiasto;
+    Button zamow,wyczysc;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        spinnerCiasto = findViewById(R.id.ciastoSpinner);
+        checkboxWlasneCiasto = findViewById(R.id.checkBoxWlasnejRoboty);
+        ser = findViewById(R.id.checkboxSer);
+        szynka = findViewById(R.id.checkboxSzynka);
+        pieczarki = findViewById(R.id.checkboxPieczarki);
+        radioGroupRozmiar = findViewById(R.id.radioGroupRozmiar);
+        radioGroupRozmiar2 = findViewById(R.id.radioGroupRozmiar2);
+        bezSosu = findViewById(R.id.bezSosu);
+        sosCzosnkowy = findViewById(R.id.sosCzosnkowy);
+        sosPomidorowy = findViewById(R.id.sosPomidorowy);
+        tekstCenaKoncowa = findViewById(R.id.tekstCenaKoncowa);
+        podsumowanie = findViewById(R.id.podsumowanie);
+        zamow = findViewById(R.id.zamow);
+        lata = findViewById(R.id.lata);
+        radioMala = findViewById(R.id.radioMala);
+        radioSrednia = findViewById(R.id.radioSrednia);
+        radioDuza = findViewById(R.id.radioDuza);
+        student = findViewById(R.id.student);
+        wyczysc = findViewById(R.id.wyczysc);
+        tekstCenaBazowa = findViewById(R.id.tekstCenaBazowa);
+
+
+
+        checkboxWlasneCiasto.setOnClickListener(v->{
+            ukryjSpinner();
+        });
+        ser.setOnClickListener(v -> {
+            aktualizujCene();
+        });
+        szynka.setOnClickListener(v -> {
+            aktualizujCene();
+        });
+        pieczarki.setOnClickListener(v -> {
+            aktualizujCene();
+        });
+        sosCzosnkowy.setOnClickListener(v -> {
+            aktualizujCene();
+        });
+        sosPomidorowy.setOnClickListener(v -> {
+            aktualizujCene();
+        });
+        bezSosu.setOnClickListener(v -> {
+            aktualizujCene();
+        });
+        lata.setOnClickListener(v -> {
+            wiek();
+        });
+        radioMala.setOnClickListener(v -> {
+            aktualizujCene();
+        });
+        radioSrednia.setOnClickListener(v -> {
+            aktualizujCene();
+        });
+        radioDuza.setOnClickListener(v -> {
+            aktualizujCene();
+        });
+        lata.setOnClickListener(v -> {
+            aktualizujCene();
+        });
+        student.setOnClickListener(v -> {
+            if(student.isChecked()){
+                Toast.makeText(this, "zniżka jest włączona", Toast.LENGTH_SHORT).show();
+            }else if(!student.isChecked()){
+                Toast.makeText(this, "zniżka jest wyłączona", Toast.LENGTH_SHORT).show();
+            }
+            aktualizujCene();
+        });
+        wyczysc.setOnClickListener(v -> {
+            wyczyscFormularz();
+        });
+    }
+
+
+    private void wiek(){
+        if(lata.isChecked()){
+            zamow.setEnabled(true);
+        }else{
+            zamow.setEnabled(false);
+        }
+    }
+    private double getCenaBazowa(){
+        double cenaBazowa = 0.0;
+
+
+        // Krok 3.1: Pobierz ID wybranego przycisku
+        int wybranyRozmiarId = radioGroupRozmiar.getCheckedRadioButtonId();
+        if (wybranyRozmiarId != -1) {
+            RadioButton wybranyPrzycisk = findViewById(wybranyRozmiarId);
+            String tag = wybranyPrzycisk.getTag().toString(); // Pobieramy tag
+
+            switch (tag) {
+                case "mala":
+                    cenaBazowa = CENA_MALA;
+                    break;
+                case "srednia":
+                    cenaBazowa = CENA_SREDNIA;
+                    break;
+                case "duza":
+                    cenaBazowa = CENA_DUZA;
+                    break;
+            }
+        }
+        return cenaBazowa;
+    }
+    private String getRozmiarPizzy(){
+        double cenaBazowa = getCenaBazowa();
+        String rozmiarPizzy = "";
+        if (cenaBazowa == CENA_MALA) {
+            rozmiarPizzy = "Mała";
+        } else if (cenaBazowa == CENA_SREDNIA) {
+            rozmiarPizzy = "Średnia";
+        } else if (cenaBazowa == CENA_DUZA) {
+            rozmiarPizzy = "Duża";
+        }
+        return rozmiarPizzy;
+    }
+
+    private void aktualizujCene() {
+        String dodatki = "";
+        double cenaKoncowa = getCenaBazowa(); // Inicjalizujemy cenę końcową ustaloną ceną bazową
+        RadioGroup radioGroupRozmiar2 = findViewById(R.id.radioGroupRozmiar2);
+        int wybranySosId = radioGroupRozmiar2.getCheckedRadioButtonId();
+        if (wybranySosId != -1) {
+            RadioButton wybranyPrzycisk = findViewById(wybranySosId);
+            String tag = wybranyPrzycisk.getTag().toString();
+
+            switch (tag) {
+                case "bezSosu":
+                    break;
+                case "sosCzosnkowy":
+                    cenaKoncowa += CENA_SOS_CZOSNKOWY;
+                    dodatki+="Sos Czosnkowy, ";
+                    break;
+                case "sosPomidorowy":
+                    cenaKoncowa += CENA_SOS_POMIDOROWY;
+                    dodatki+="Sos Pomidorowy, ";
+            }
+        }
+        if (ser.isChecked()) {
+            cenaKoncowa += CENA_SER;
+            dodatki+="Ser, ";
+        }
+        if (szynka.isChecked()) {
+            cenaKoncowa += CENA_SZYNKA;
+            dodatki+="Szynka, ";
+        }
+        if (pieczarki.isChecked()) {
+            cenaKoncowa += CENA_PIECZARKI;
+            dodatki+="Pieczarki, ";
+        }
+        if(student.isChecked()){
+            cenaKoncowa -= cenaKoncowa * ZNIZKA_STUDENCKA;
+        }
+
+        String tekstPodsumowania;
+        if(dodatki.length() > 0) {
+            tekstPodsumowania = "rozmiar pizzy: "+getRozmiarPizzy()+"\n dodatki: "+dodatki;
+        }else {
+            tekstPodsumowania = "nima dodatkow";
+        }
+        tekstCenaKoncowa.setText("Cena: "+cenaKoncowa+"zl");
+        podsumowanie.setText(tekstPodsumowania);
+
+        tekstCenaBazowa.setText("Cena podstawowa: " + getCenaBazowa() + " PLN");
+    }
+    private void wyczyscFormularz(){
+        ser.setChecked(false);
+        szynka.setChecked(false);
+        pieczarki.setChecked(false);
+        radioGroupRozmiar2.check(R.id.bezSosu);
+        lata.setChecked(false);
+        student.setChecked(false);
+        radioGroupRozmiar.check(R.id.radioSrednia);
+        tekstCenaKoncowa.setText("CENA: ");
+        podsumowanie.setText("");
+        tekstCenaBazowa.setText("Cena podstawowa: " + getCenaBazowa() + " PLN");
+    }
+    private void ukryjSpinner(){
+        if(checkboxWlasneCiasto.isChecked()){
+            spinnerCiasto.setVisibility(View.GONE);
+        }else if(!checkboxWlasneCiasto.isChecked()){
+            spinnerCiasto.setVisibility(View.VISIBLE);
+        }
+}
+}
+
+
+
+
+
+<resources>
+    <string name="app_name">My Application</string>
+    <string-array name="rodzajCiasta">
+        <item>Cienkie</item>
+        <item>Grube (+2.00 PLN)</item>
+        <item>Pełnoziarniste (+4.00 PLN)</item>
+    </string-array>
+</resources>
+
+
+
+
+
