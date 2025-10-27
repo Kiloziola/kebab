@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nagłówek"
+        android:textSize="24sp"/>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Główny Przycisk"/>
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Opcja 1"
+        android:checked="true"/>
+    <Switch
+        android:id="@+id/switchCos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Włącz coś"
+        android:checked="true"/>
+
+</LinearLayout>
+
+
+
+
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.LaboratoriumMotywów" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.LaboratoriumMotywów" parent="Base.Theme.LaboratoriumMotywów" />
+    <style name="Theme.StyleAndThemeLab" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brand_secondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Dodajemy domyślne tło i kolor tekstu -->
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+</resources>
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_primary">#0D47A1</color> <!-- Ciemnoniebieski -->
+    <color name="brand_secondary">#FF6F00</color> <!-- Pomarańczowy -->
+    <color name="text_primary">#212121</color> <!-- Ciemnoszary dla tekstu -->
+    <color name="background_light">#FAFAFA</color> <!-- Jasnoszare tło -->
+    <color name="white">#FFFFFF</color>
+</resources>
+
+
+
+
+package com.example.laboratoriummotyww;
+
+import android.os.Bundle;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+    }
+}
