@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -8,36 +10,35 @@
     android:orientation="vertical"
     android:gravity="center">
 
-
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/tekstCytatu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cytat: "/>
+        android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/tekstAutora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Autor: "/>
+        android:id="@+id/tekstAutora"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
 
     <Button
-        android:id="@+id/przyciskLosuj"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Losuj kolejny cytat"
-        android:onClick="Licz"/>
-
-
-
+        android:id="@+id/przyciskLosuj"
+        android:text="Losuj kolejny cytat"/>
 
 </LinearLayout>
+
 
 
 
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,25 +63,46 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-    }
-    public class Cytat {
-        // 1. Pola (atrybuty) - definiują, z czego składa się każdy cytat
-        String tresc;
-        String autor;
+        przygotujDaneCytatow();
 
-        // 2. Konstruktor - "instrukcja montażu" dla nowego obiektu
-        //    Przyjmuje dwa argumenty i przypisuje je do pól.
-        public Cytat(String tresc, String autor) {
-            this.tresc = tresc;
-            this.autor = autor;
-        }
+        TextView cytat = findViewById(R.id.tekstCytatu);
+        TextView autor = findViewById(R.id.tekstAutora);
+
+        Button przycisk = findViewById(R.id.przyciskLosuj);
+        przycisk.setOnClickListener(v -> {
+                    if(!listaCytatow.isEmpty()){
+                        int losowyIndeks = randomGenerator.nextInt(listaCytatow.size());
+                        Cytat losowyCytat = listaCytatow.get(losowyIndeks);
+                        cytat.setText(losowyCytat.tresc);
+                        autor.setText(losowyCytat.autor);
+                    }
+                }
+        );
     }
+
     private void przygotujDaneCytatow() {
         // Tworzymy nowe obiekty klasy Cytat, używając naszego konstruktora
         listaCytatow.add(new Cytat("Być albo nie być, oto jest pytanie.", "William Szekspir"));
         listaCytatow.add(new Cytat("Wiem, że nic nie wiem.", "Sokrates"));
         listaCytatow.add(new Cytat("Myślę, więc jestem.", "Kartezjusz"));
-        listaCytatow.add(new Cytat("Suuuuuuuupeeeer.", "Owca WK"));
-        listaCytatow.add(new Cytat("Ku**aaaaaaaaaaaaaa.", "Jan Ziółkowski"));
+        listaCytatow.add(new Cytat("Wiesz, że się zestarzałeś, kiedy świeczki na tort kosztują więcej niż sam tort.",  "Bob Hope "));
+        listaCytatow.add(new Cytat("Ciężka praca jeszcze nikomu nie zaszkodziła, ale po co ryzykować?", "Ronald Reagan "));
+    }
+}
+
+
+
+package com.example.myapplication;
+
+public class Cytat {
+    // 1. Pola (atrybuty) - definiują, z czego składa się każdy cytat
+    String tresc;
+    String autor;
+
+    // 2. Konstruktor - "instrukcja montażu" dla nowego obiektu
+    //    Przyjmuje dwa argumenty i przypisuje je do pól.
+    public Cytat(String tresc, String autor) {
+        this.tresc = tresc;
+        this.autor = autor;
     }
 }
