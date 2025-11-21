@@ -71,8 +71,23 @@ public class MainActivity extends AppCompatActivity {
         Button przycisk = findViewById(R.id.przyciskLosuj);
         przycisk.setOnClickListener(v -> {
                     if(!listaCytatow.isEmpty()){
-                        int losowyIndeks = randomGenerator.nextInt(listaCytatow.size());
-                        Cytat losowyCytat = listaCytatow.get(losowyIndeks);
+                        int losowyIndeks;
+                        boolean dziala;
+                        Cytat losowyCytat;
+                        losowyIndeks = randomGenerator.nextInt(listaCytatow.size());
+
+                        losowyCytat = listaCytatow.get(losowyIndeks);
+                        do{
+                            dziala = false;
+                            if(losowyCytat.tresc == cytat.getText()){
+                                dziala = true;
+                                losowyIndeks = randomGenerator.nextInt(listaCytatow.size());
+                                losowyCytat = listaCytatow.get(losowyIndeks);
+                                cytat.setText(losowyCytat.tresc);
+                                autor.setText(losowyCytat.autor);
+                            };
+                        }while(dziala);
+
                         cytat.setText(losowyCytat.tresc);
                         autor.setText(losowyCytat.autor);
                     }
