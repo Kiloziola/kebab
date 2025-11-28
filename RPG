@@ -102,10 +102,13 @@
             android:layout_height="wrap_content"
             android:text="Stwórz postać"
             android:onClick="stworzPostac"/>
+        <TextView
+            android:id="@+id/wyswietleniePostaci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </ScrollView>
-
 
 
 
@@ -126,7 +129,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-
+    RadioGroup plecPostaciRadioGroup;
+    EditText imiePostaci;
+    Spinner klasaPostaci;
+    String wybranaKlasaPostaci;
+    CheckBox wlamywaniePostac, alchemiaPostac,kowalstwoPostac;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,20 +144,15 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        imiePostaci = findViewById(R.id.imiePostaci);
+        plecPostaciRadioGroup = findViewById(R.id.plecPostaci);
+        wybranaKlasaPostaci = klasaPostaci.getSelectedItem().toString();
+        wlamywaniePostac = findViewById(R.id.wlamywanie);
+        alchemiaPostac = findViewById(R.id.alchemia);
+        kowalstwoPostac = findViewById(R.id.kowalstwo);
     }
 
     public void stworzPostac(View view){
-        EditText imiePostaci = findViewById(R.id.imiePostaci);
-
-        RadioGroup plecPostaciRadioGroup = findViewById(R.id.plecPostaci);
-        int wybranyId = plecPostaciRadioGroup.getCheckedRadioButtonId();
-
-        Spinner klasaPostaci = findViewById(R.id.spinner_klasa_postaci);
-        String wybranaKlasaPostaci = klasaPostaci.getSelectedItem().toString();
-
-        CheckBox wlamywaniePostac = findViewById(R.id.wlamywanie);
-        CheckBox alchemiaPostac = findViewById(R.id.alchemia);
-        CheckBox kowalstwoPostac = findViewById(R.id.kowalstwo);
 
 
     }
@@ -159,9 +161,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+//Postac.java
+package com.example.myapplication;
+
+import java.util.ArrayList;
+
+public class Postac {
+    String imie;
+    String plec;
+    String klasa;
+    ArrayList<String> umiejetnosci = new ArrayList<>();
+
+    public Postac(String imie, String plec, String klasa){
+        this.imie = imie;
+        this.plec = plec;
+        this.klasa = klasa;
+    }
+}
 
 
-//Stings.xml
+//Stings
 <resources>
     <string name="app_name">generator_postaci_rpg</string>
     <string-array name="klasa_postaci">
