@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/tloGlowne">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,8 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Imie"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            style="@style/Podpisy"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -36,8 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Plec"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            style="@style/Podpisy"/>
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -49,59 +48,70 @@
                 android:id="@+id/kobieta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kobieta"/>
+                android:text="Kobieta"
+                style="@style/StylRadio"/>
 
             <RadioButton
                 android:id="@+id/mezczyzna"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mężczyzna"/>
+                android:text="Mężczyzna"
+                style="@style/StylRadio"/>
         </RadioGroup>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Klasa"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:text="Rasa"
+            style="@style/Podpisy"/>
 
         <Spinner
-            android:id="@+id/spinner_klasa_postaci"
+            android:id="@+id/spinner_rasa_postaci"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/klasa_postaci"/>
+            android:entries="@array/rasa_postaci"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Umiejętności"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            style="@style/Podpisy"/>
 
         <CheckBox
             android:id="@+id/wlamywanie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Włamywanie"/>
+            android:text="Włamywanie"
+            style="@style/StylCheckBox"/>
 
         <CheckBox
             android:id="@+id/alchemia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alchemia"/>
+            android:text="Alchemia"
+            style="@style/StylCheckBox"/>
 
         <CheckBox
             android:id="@+id/kowalstwo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kowalstwo"/>
+            android:text="Kowalstwo"
+            style="@style/StylCheckBox"/>
 
         <Button
             android:id="@+id/stworzPostac"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Stwórz postać"
+            style="@style/PrzyciskGlowny"
             android:onClick="stworzPostac"/>
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset"
+            style="@style/PrzyciskReset"
+            android:onClick="Reset"/>
         <TextView
             android:id="@+id/wyswietleniePostaci"
             android:layout_width="wrap_content"
@@ -111,7 +121,6 @@
 </ScrollView>
 
 
-
 //JAVA
 package com.example.myapplication;
 
@@ -119,8 +128,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -128,11 +140,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+    ArrayList<String> druzyna = new ArrayList<>();
+    int wielkoscDruzyny = 0;
+
+    TextView wyswietleniePostaci;
     RadioGroup plecPostaciRadioGroup;
+    RadioButton kobieta, mezczyzna;
     EditText imiePostaci;
-    Spinner klasaPostaci;
-    String wybranaKlasaPostaci;
+    Spinner rasaPostaci;
+    String wybranaRasaPostaci;
     CheckBox wlamywaniePostac, alchemiaPostac,kowalstwoPostac;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,17 +165,86 @@ public class MainActivity extends AppCompatActivity {
         });
         imiePostaci = findViewById(R.id.imiePostaci);
         plecPostaciRadioGroup = findViewById(R.id.plecPostaci);
-        wybranaKlasaPostaci = klasaPostaci.getSelectedItem().toString();
+        kobieta = findViewById(R.id.kobieta);
+        mezczyzna = findViewById(R.id.mezczyzna);
+        rasaPostaci = findViewById(R.id.spinner_rasa_postaci);
+        wybranaRasaPostaci = rasaPostaci.getSelectedItem().toString();
         wlamywaniePostac = findViewById(R.id.wlamywanie);
         alchemiaPostac = findViewById(R.id.alchemia);
         kowalstwoPostac = findViewById(R.id.kowalstwo);
+        wyswietleniePostaci = findViewById(R.id.wyswietleniePostaci);
     }
 
+
+//sb.append("Linia pierwsza.\n");
     public void stworzPostac(View view){
+        int liczbaUmiejetnosci = 0;
+        ArrayList<String> umiejetnosci = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        String imie = imiePostaci.getText().toString();
+        sb.append(imie+"\n");
+        int wybranyId = plecPostaciRadioGroup.getCheckedRadioButtonId();
+        String plec;
+        if (wybranyId == R.id.kobieta) {
+            sb.append("Kobieta\n");
+            plec = "Kobieta";
+        } else if (wybranyId == R.id.mezczyzna) {
+            sb.append("Mężczyzna\n");
+            plec = "Mężczyzna";
+        }else {
+            plec = "";
+        }
 
+            if(wlamywaniePostac.isChecked()){
+                umiejetnosci.add("Włamywanie\n");
+                liczbaUmiejetnosci++;
+            }
 
+            if(alchemiaPostac.isChecked()){
+                umiejetnosci.add("Alchemia\n");
+                liczbaUmiejetnosci++;
+            }
+
+            if(kowalstwoPostac.isChecked()){
+                umiejetnosci.add("Kowalstwo\n");
+                liczbaUmiejetnosci++;
+                if (liczbaUmiejetnosci >= 3) {
+                    umiejetnosci.clear();
+                    Toast.makeText(this, "Można mieć tylko 2 umiejętności", Toast.LENGTH_SHORT).show();
+                    kowalstwoPostac.setChecked(false);
+                }
+            }
+            
+
+        sb.append(wybranaRasaPostaci+"\n");
+        sb.append(umiejetnosci);
+        
+        if(imiePostaci.equals("") || plec.isEmpty() || wybranaRasaPostaci.isEmpty() || umiejetnosci.isEmpty()) {
+            Toast.makeText(this, "Wypełnij wszystkie pola zanim dodasz postać", Toast.LENGTH_SHORT).show();
+        }else {
+
+            Postac postac = new Postac(imie, plec, wybranaRasaPostaci, umiejetnosci);
+            druzyna.add(sb + "\n");
+            String finalnyTekst = druzyna.toString();
+            wyswietleniePostaci.setText(finalnyTekst);
+        }
+    }
+    public  void Reset(View view){
+        imiePostaci.setText("");
+        int wybranyId = plecPostaciRadioGroup.getCheckedRadioButtonId();
+        if (wybranyId == R.id.kobieta) {
+            kobieta.setChecked(false);
+        } else if (wybranyId == R.id.mezczyzna) {
+            mezczyzna.setChecked(false);
+        }
+        wybranaRasaPostaci = "Człowiek";
+        wlamywaniePostac.setChecked(false);
+        alchemiaPostac.setChecked(false);
+        kowalstwoPostac.setChecked(false);
+        wyswietleniePostaci.setText("");
     }
 }
+
 
 
 
@@ -169,21 +257,85 @@ import java.util.ArrayList;
 public class Postac {
     String imie;
     String plec;
-    String klasa;
+    String rasa;
     ArrayList<String> umiejetnosci = new ArrayList<>();
 
-    public Postac(String imie, String plec, String klasa){
+    public Postac(String imie, String plec, String rasa, ArrayList<String> umiejetnosci){
         this.imie = imie;
         this.plec = plec;
-        this.klasa = klasa;
+        this.rasa = rasa;
+        this.umiejetnosci = umiejetnosci;
     }
+
+
 }
 
 
-//Stings
+
+
+
+//themes.xml
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+        <style name="Podpisy">
+            <item name="android:textSize">20sp</item>
+            <item name="android:textStyle">bold</item>
+            <item name="android:textColor">@color/tekstNiebieski</item>
+        </style>
+
+        <style name="StylRadio">
+            <item name="android:textSize">16sp</item>
+            <item name="android:textColor">@color/tekstNiebieski</item>
+        </style>
+
+        <style name="StylCheckBox">
+            <item name="android:textSize">16sp</item>
+            <item name="android:textColor">@color/tekstNiebieski</item>
+        </style>
+
+        <style name="PrzyciskGlowny">
+            <item name="android:backgroundTint">@color/zielony</item>
+            <item name="android:textColor">@color/bialyTekst</item>
+            <item name="android:textStyle">bold</item>
+            <item name="android:textSize">18sp</item>
+        </style>
+
+        <style name="PrzyciskReset">
+            <item name="android:backgroundTint">@color/szary</item>
+            <item name="android:textColor">@color/bialyTekst</item>
+            <item name="android:textSize">16sp</item>
+        </style>
+
+
+    <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
+
+</resources>
+
+
+
+
+//colors.xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="zielony">#4CAF50</color>
+    <color name="szary">#9E9E9E</color>
+    <color name="bialyTekst">#FFFFFF</color>
+
+    <color name="tloGlowne">#000000</color>
+    <color name="tekstNiebieski">#2196F3</color>
+</resources>
+
+
+
+
+//strings.xml
 <resources>
     <string name="app_name">generator_postaci_rpg</string>
-    <string-array name="klasa_postaci">
+    <string-array name="rasa_postaci">
         <item>Człowiek</item>
         <item>Elf</item>
         <item>Krasnolud</item>
