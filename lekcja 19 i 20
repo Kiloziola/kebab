@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
         Pytanie p = listaPytan.get(indeksPytania);
 
-        numerPytania.setText("Pytanie " + (indeksPytania + 1) + "na" + listaPytan.size());
+        numerPytania.setText("Pytanie " + (indeksPytania + 1) + "na " + listaPytan.size());
         trescPytania.setText(p.tresc);
 
         odp1.setText(p.odpowiedzi.get(0));
