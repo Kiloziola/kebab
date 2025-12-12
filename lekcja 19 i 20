@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
         Pytanie p = listaPytan.get(indeksPytania);
 
-        numerPytania.setText("Pytanie " + (indeksPytania + 1) + "na " + listaPytan.size());
+        numerPytania.setText("Pytanie " + (indeksPytania + 1) + "na" + listaPytan.size());
         trescPytania.setText(p.tresc);
 
         odp1.setText(p.odpowiedzi.get(0));
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         radioGroup.setVisibility(View.GONE);
         sprawdz.setVisibility(View.GONE);
 
-        trescPytania.setText("koniec quizu\ntwój wynik: " + wynik + " na " + listaPytan.size() + "Odpowiedzi.");
+        trescPytania.setText("koniec quizu\ntwój wynik To: " + wynik + " na " + listaPytan.size() + " Odpowiedzi.");
         numerPytania.setText("");
 
         zagrajPonownie.setVisibility(View.VISIBLE);
@@ -236,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
 
 
 
