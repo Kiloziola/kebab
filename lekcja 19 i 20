@@ -1,0 +1,328 @@
+//XML
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numerPytania"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/trescPytania"
+        android:text="Pytanie:"
+        style="@style/quizPytanie"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/groupOdpowiedzi"
+        style="@style/quizOdpowiedz">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/odpowiedz1"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/odpowiedz2"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/odpowiedz3"/>
+
+    </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sprawdz"
+        android:text="Sprawdź"
+        style="@style/quizPrzycisk"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/zagrajPonownie"
+        android:text="Zagraj ponownie"
+        android:visibility="gone"
+        style="@style/quizPrzycisk"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/wynik"
+        style="@style/quizWynik"/>
+
+</LinearLayout>
+
+
+
+
+
+
+//JAVA
+package com.example.myapplication;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    ArrayList<Pytanie> listaPytan = new ArrayList<>();
+    int indeksPytania = 0;
+    int wynik = 0;
+
+    TextView numerPytania;
+    TextView trescPytania;
+    RadioGroup radioGroup;
+    RadioButton odp1, odp2, odp3;
+    Button sprawdz, zagrajPonownie;
+    TextView wynikText;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        numerPytania = findViewById(R.id.numerPytania);
+        trescPytania = findViewById(R.id.trescPytania);
+        radioGroup = findViewById(R.id.groupOdpowiedzi);
+        odp1 = findViewById(R.id.odpowiedz1);
+        odp2 = findViewById(R.id.odpowiedz2);
+        odp3 = findViewById(R.id.odpowiedz3);
+        sprawdz = findViewById(R.id.sprawdz);
+        wynikText = findViewById(R.id.wynik);
+        zagrajPonownie = findViewById(R.id.zagrajPonownie);
+
+        przygotujPytanie();
+        wyswietlPytanie();
+
+        sprawdz.setOnClickListener(v -> sprawdzOdpowiedz());
+    }
+
+
+    private void przygotujPytanie() {
+        ArrayList<String> o1 = new ArrayList<>();
+        o1.add("Mieszko I");
+        o1.add("Bolesław Chrobry");
+        o1.add("Władysław Jagiełło");
+        listaPytan.add(new Pytanie("Kto był pierwszym królem Polski?", o1, 1));
+
+        ArrayList<String> o2 = new ArrayList<>();
+        o2.add("Green");
+        o2.add("red");
+        o2.add("brown");
+        listaPytan.add(new Pytanie("Czerwony po angielsku to:", o2, 1));
+
+        ArrayList<String> o3 = new ArrayList<>();
+        o3.add("3");
+        o3.add("5");
+        o3.add("4");
+        listaPytan.add(new Pytanie("2 + 2 To:", o3, 2));
+    }
+
+    private void wyswietlPytanie(){
+        radioGroup.clearCheck();
+
+        Pytanie p = listaPytan.get(indeksPytania);
+
+        numerPytania.setText("Pytanie " + (indeksPytania + 1) + "na" + listaPytan.size());
+        trescPytania.setText(p.tresc);
+
+        odp1.setText(p.odpowiedzi.get(0));
+        odp2.setText(p.odpowiedzi.get(1));
+        odp3.setText(p.odpowiedzi.get(2));
+
+        if (indeksPytania == listaPytan.size() - 1) {
+            sprawdz.setText("Zakończ quiz");
+        } else {
+            sprawdz.setText("Następne pytanie");
+        }
+    }
+
+    private void sprawdzOdpowiedz() {
+        zablokujOdpowiedzi(true);
+        int zaznaczoneId = radioGroup.getCheckedRadioButtonId();
+
+        if(zaznaczoneId == -1){
+            Toast.makeText(this, "Zaznacz odpowiedź", Toast.LENGTH_SHORT).show();
+            zablokujOdpowiedzi(false);
+            return;
+        }
+
+        int indexWybranej = radioGroup.indexOfChild(findViewById(zaznaczoneId));
+        int poprawna = listaPytan.get(indeksPytania).indeksPoprawnej;
+
+        if(indexWybranej == poprawna){
+            findViewById(zaznaczoneId).setBackgroundColor(getColor(R.color.poprawnaOdp));
+            wynik++;
+        } else {
+            findViewById(zaznaczoneId).setBackgroundColor(getColor(R.color.blednaOdp));
+            findViewById(radioGroup.getChildAt(poprawna).getId())
+                    .setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+        }
+
+        new android.os.Handler().postDelayed(() -> {
+            indeksPytania++;
+            if(indeksPytania < listaPytan.size()){
+                findViewById(zaznaczoneId).setBackgroundColor(getColor(R.color.white));
+                findViewById(radioGroup.getChildAt(poprawna).getId()).setBackgroundColor(getColor(R.color.white));
+                zablokujOdpowiedzi(false);
+                wyswietlPytanie();
+            } else {
+                wyswietlWynikKoncowy();
+            }
+        }, 1000);
+    }
+
+    // Ekran końcowy
+    private void wyswietlWynikKoncowy(){
+        radioGroup.setVisibility(View.GONE);
+        sprawdz.setVisibility(View.GONE);
+
+        trescPytania.setText("koniec quizu\ntwój wynik: " + wynik + " na " + listaPytan.size() + "Odpowiedzi.");
+        numerPytania.setText("");
+
+        zagrajPonownie.setVisibility(View.VISIBLE);
+
+        zagrajPonownie.setOnClickListener(v -> {
+            wynik = 0;
+            indeksPytania = 0;
+
+            radioGroup.setVisibility(View.VISIBLE);
+            sprawdz.setVisibility(View.VISIBLE);
+            zagrajPonownie.setVisibility(View.GONE);
+            for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                radioGroup.getChildAt(i).setEnabled(true);
+                radioGroup.getChildAt(i).setBackgroundColor(getColor(R.color.white));
+            }
+            wyswietlPytanie();
+        });
+    }
+
+    private void zablokujOdpowiedzi(boolean czyZablokowac){
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            radioGroup.getChildAt(i).setEnabled(!czyZablokowac);
+        }
+    }
+}
+
+
+
+
+
+
+//colors.xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FCF5FD</color>
+    <color name="blednaOdp">#E94242</color>
+    <color name="poprawnaOdp">#66E942</color>
+</resources>
+
+
+
+
+
+
+//Pytanie.java
+package com.example.myapplication;
+
+import java.util.ArrayList;
+
+public class Pytanie {
+    String tresc;
+    ArrayList<String> odpowiedzi;
+    int indeksPoprawnej; // dla pojedynczego wyboru
+    boolean czyWielokrotnyWybor = false; // nowe pole
+    ArrayList<Integer> poprawneOdp = new ArrayList<>(); // dla wielokrotnego wyboru
+
+    // konstruktor dla pojedynczego wyboru
+    public Pytanie(String tresc, ArrayList<String> odpowiedzi, int indeksPoprawnej) {
+        this.tresc = tresc;
+        this.odpowiedzi = odpowiedzi;
+        this.indeksPoprawnej = indeksPoprawnej;
+        this.czyWielokrotnyWybor = false;
+        this.poprawneOdp.add(indeksPoprawnej);
+    }
+
+    // konstruktor dla wielokrotnego wyboru
+    public Pytanie(String tresc, ArrayList<String> odpowiedzi, ArrayList<Integer> poprawneOdp) {
+        this.tresc = tresc;
+        this.odpowiedzi = odpowiedzi;
+        this.czyWielokrotnyWybor = true;
+        this.poprawneOdp = new ArrayList<>(poprawneOdp);
+    }
+}
+
+
+
+
+
+
+
+
+
+//themes.xml
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
+
+    <style name="quizPytanie">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="quizOdpowiedz">
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">6dp</item>
+    </style>
+
+    <style name="quizPrzycisk">
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="quizWynik">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+</resources>
