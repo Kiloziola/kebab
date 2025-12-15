@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+         
         int indexWybranej = radioGroup.indexOfChild(findViewById(zaznaczoneId));
         int poprawna = listaPytan.get(indeksPytania).indeksPoprawnej;
 
@@ -191,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
             findViewById(radioGroup.getChildAt(poprawna).getId())
                     .setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
         }
+        new android.os.Handler().postDelayed(() -> {
             indeksPytania++;
             if(indeksPytania < listaPytan.size()){
                 findViewById(zaznaczoneId).setBackgroundColor(getColor(R.color.white));
@@ -200,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 wyswietlWynikKoncowy();
             }
+        }, 1000);
     }
 
     // Ekran końcowy
