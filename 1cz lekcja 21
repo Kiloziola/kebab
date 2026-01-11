@@ -1,0 +1,199 @@
+//xml 1
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/black">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ekran Główny"
+        android:textColor="#DC4C06"/>
+
+    <Button
+        android:id="@+id/przyciskDoDrugiej"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="do 2"/>
+
+</LinearLayout>
+
+//java 1
+package com.example.myapplication;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+    Button przycisk;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        przycisk = findViewById(R.id.przyciskDoDrugiej);
+        przycisk.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, DrugaActivity.class);
+            startActivity(intent);
+        });
+
+    }
+}
+
+
+
+
+//xml 2
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Witaj na drugim ekranie!"
+        android:textColor="#2644E6"/>
+
+    <Button
+        android:id="@+id/przyciskDo3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do3"/>
+
+</LinearLayout>
+
+
+//java 2
+package com.example.myapplication;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class DrugaActivity extends AppCompatActivity {
+    Button przycisk;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_druga);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        przycisk = findViewById(R.id.przyciskDo3);
+        przycisk.setOnClickListener(v -> {
+            Intent intent = new Intent(DrugaActivity.this, TrzeciaActivity.class);
+            startActivity(intent);
+        });
+
+    }
+}
+
+
+
+//xml 3
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#EB6F6F">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Witaj na trzecim ekranie!"
+        android:textColor="#AA2CE6"/>
+
+    <Button
+        android:id="@+id/przyciskDo1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do1"/>
+
+    <Button
+        android:id="@+id/przyciskDo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do2"/>
+
+</LinearLayout>
+
+
+
+//java 3
+package com.example.myapplication;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class TrzeciaActivity extends AppCompatActivity {
+    Button przycisk, przycisk2;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_trzecia);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        przycisk = findViewById(R.id.przyciskDo1);
+        przycisk2 = findViewById(R.id.przyciskDo2);
+        przycisk.setOnClickListener(v -> {
+            Intent intent = new Intent(TrzeciaActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        przycisk2.setOnClickListener(v -> {
+            Intent intent = new Intent(TrzeciaActivity.this, DrugaActivity.class);
+            startActivity(intent);
+        });
+
+
+    }
+}
