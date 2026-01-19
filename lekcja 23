@@ -1,4 +1,4 @@
-MainActivity:
+//MainActivity
 
 package com.example.edytorprofilu;
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 }
 
 
-activity_main.xml:
+//activity_main.xml
 
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
@@ -92,7 +92,7 @@ activity_main.xml:
 </LinearLayout>
 
 
-EdytujProfilActivity:
+//EdytujProfilActivity
 
 package com.example.edytorprofilu;
 
@@ -147,7 +147,7 @@ public class EdytujProfilActivity extends AppCompatActivity {
 }
 
 
-activity_edytuj_profil.xml:
+//activity_edytuj_profil.xml
 
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
