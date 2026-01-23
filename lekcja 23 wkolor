@@ -1,6 +1,27 @@
-MainActivity:
+//main xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-package com.example.wybierzkolor;
+    <TextView
+        android:id="@+id/kolor"
+        android:text="tło"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/wybierz"
+        android:text="wybierz kolor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
+
+
+//main java
+package com.example.myapplication;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,21 +33,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int KOD_KOLORU = 1;
-    TextView textKolor;
+    private static final int KOD_KOLOR = 1;
+    TextView kolor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textKolor = findViewById(R.id.textKolor);
-        Button btn = findViewById(R.id.btnWybierz);
+        kolor = findViewById(R.id.kolor);
+        Button btn = findViewById(R.id.wybierz);
 
         btn.setOnClickListener(v ->
                 startActivityForResult(
-                        new Intent(this, WybierzKolorActivity.class),
-                        KOD_KOLORU
+                        new Intent(this, wybierzKolor.class),
+                        KOD_KOLOR
                 ));
     }
 
@@ -34,57 +55,62 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == KOD_KOLORU && resultCode == RESULT_OK) {
+        if (requestCode == KOD_KOLOR && resultCode == RESULT_OK) {
             String kolor = data.getStringExtra("kolor");
-            textKolor.setBackgroundColor(Color.parseColor(kolor));
+            this.kolor.setBackgroundColor(Color.parseColor(kolor));
         }
     }
 }
 
 
-activity_main.xml:
 
+
+//wybierz kolor xml
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="center"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textKolor"
-        android:text="Tło"
-        android:padding="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/czerwony"
+        android:text="czerwony"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
 
     <Button
-        android:id="@+id/btnWybierz"
-        android:text="Wybierz kolor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:id="@+id/zielony"
+        android:text="zielony"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+
+    <Button
+        android:id="@+id/niebieski"
+        android:text="niebieski"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
 </LinearLayout>
 
 
-WybierzKolorActivity:
 
-package com.example.wybierzkolor;
+//wybierz kolor java
+package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class WybierzKolorActivity extends AppCompatActivity {
+public class wybierzKolor extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wybierz_kolor);
 
-        findViewById(R.id.btnCzerwony).setOnClickListener(v -> zwroc("#FF0000"));
-        findViewById(R.id.btnZielony).setOnClickListener(v -> zwroc("#00FF00"));
-        findViewById(R.id.btnNiebieski).setOnClickListener(v -> zwroc("#0000FF"));
+        findViewById(R.id.czerwony).setOnClickListener(v -> zwroc("#FF0000"));
+        findViewById(R.id.zielony).setOnClickListener(v -> zwroc("#00FF00"));
+        findViewById(R.id.niebieski).setOnClickListener(v -> zwroc("#0000FF"));
     }
 
     void zwroc(String kolor) {
@@ -94,33 +120,3 @@ public class WybierzKolorActivity extends AppCompatActivity {
         finish();
     }
 }
-
-
-activity_wybierz_kolor.xml:
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/btnCzerwony"
-        android:text="Czerwony"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/btnZielony"
-        android:text="Zielony"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/btnNiebieski"
-        android:text="Niebieski"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
