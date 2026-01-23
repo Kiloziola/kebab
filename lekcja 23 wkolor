@@ -19,7 +19,6 @@
 </LinearLayout>
 
 
-
 //main java
 package com.example.myapplication;
 
@@ -61,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
 
 
 
