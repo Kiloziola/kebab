@@ -1,0 +1,122 @@
+// main java
+package com.example.myapplication;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.widget.Button;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+    Button strona, telefon, udostepnij, mapa, email;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+        strona = findViewById(R.id.przyciskStrona);
+        telefon = findViewById(R.id.przyciskTelefon);
+        udostepnij = findViewById(R.id.przyciskUdostepnij);
+        mapa = findViewById(R.id.przyciskMapa);
+        email = findViewById(R.id.przyciskEmail);
+
+        strona.setOnClickListener(v-> {
+            String url = "https://www.google.com";
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        });
+        telefon.setOnClickListener(v->{
+            String numerTelefonu = "123456789";
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + numerTelefonu));
+            startActivity(intent);
+        });
+        udostepnij.setOnClickListener(v->{
+            String tekstDoWyslania = "Sprawdź tę firmę: ziolo ind., strona: google.com";
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain"); // Określamy typ danych
+            intent.putExtra(Intent.EXTRA_TEXT, tekstDoWyslania);
+
+// Tworzymy i uruchamiamy Chooser
+            Intent chooser = Intent.createChooser(intent, "Udostępnij przez...");
+            startActivity(chooser);
+        });
+        mapa.setOnClickListener(v->{
+            String url = "https://www.google.com";
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("geo:52.2297,21.0122?q=Warszawa"));
+            startActivity(intent);
+        });
+        email.setOnClickListener(v->{
+            String mail = "adres@przyklad.com";
+            String subject = "Temat wiadomości";
+            String body = "Treść wiadomości";
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto: " + email));
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, body);
+
+        startActivity(intent);
+        });
+
+
+
+
+    }
+}
+
+
+
+
+// main xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ziolo ind."/>
+
+    <Button
+        android:id="@+id/przyciskStrona"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Odwiedź naszą stronę"/>
+
+    <Button
+        android:id="@+id/przyciskTelefon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zadzwoń do nas"/>
+
+    <Button
+        android:id="@+id/przyciskUdostepnij"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Udostępnij wizytówkę"/>
+
+    <Button
+        android:id="@+id/przyciskMapa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pokaż na mapie"/>
+
+    <Button
+        android:id="@+id/przyciskEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Napisz do nas e-mail"/>
+
+    </LinearLayout>
