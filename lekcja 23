@@ -121,10 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
 //activitywybierz xml
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -144,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
         android:layout_width="100dp"
         android:layout_height="100dp"/>
 </LinearLayout>
-
-
 
 
 
@@ -177,7 +171,6 @@ public class WybierzAwatarActivity extends AppCompatActivity {
         finish();
     }
 }
-
 
 
 
