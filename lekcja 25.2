@@ -1,4 +1,4 @@
-activity_main.xml:
+//xml
 
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,7 +20,7 @@ activity_main.xml:
         android:textColor="#000000"/>
 
     <Button
-        android:id="@+id/btnZamknij"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Zamknij aplikację"
@@ -29,9 +29,11 @@ activity_main.xml:
 </LinearLayout>
 
 
-MainActivity:
 
-package com.example.monitorstanu;
+
+
+//java
+package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,7 +43,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.view.View;
 
-import com.example.monitorstanu.R;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         statusTekst = findViewById(R.id.statusTekst);
         layout = findViewById(R.id.mojUklad);
-        Button btnZamknij = findViewById(R.id.btnZamknij);
+        Button btnZamknij = findViewById(R.id.button);
 
         Log.d(TAG, "---> Wywołano metodę: onCreate()");
         statusTekst.setText("Stan: onCreate\n(Tworzenie)");
@@ -125,28 +127,3 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "---> Wywołano metodę: onDestroy()");
     }
 }
-
-
-////////////////////////////////////////////////////////////////
-
-
-Kolejność metod:
-
--Uruchomienie aplikacji:
-onCreate()
-onStart()
-onResume()
-
--Naciśnięcie HOME:
-onPause()
-onStop()
-
--Powrót do aplikacji:
-onRestart()
-onStart()
-onResume()
-
--Naciśnięcie WSTECZ (zamknięcie):
-onPause()
-onStop()
-onDestroy()
